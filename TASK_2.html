@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77d1a1 3px solid;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .task-entry {
+            padding: 20px;
+            background: #fff;
+            margin-bottom: 20px;
+            border: #ccc 1px solid;
+        }
+        .task-entry input[type="text"],
+        .task-entry input[type="date"],
+        .task-entry select {
+            padding: 10px;
+            margin-right: 10px;
+            border: #ccc 1px solid;
+            border-radius: 4px;
+        }
+        .task-entry button {
+            padding: 10px 20px;
+            background: #77d1a1;
+            border: 0;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        table th {
+            background: #333;
+            color: #fff;
+        }
+        table tbody tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TO DO LIST</h1>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX0i8_TxuxPbaBGunePetCOf0WduyOH0KPHg&s" alt="logo" width="100">
+        </header>
+
+        <div class="task-entry">
+            <input type="text" id="taskName" placeholder="Task name">
+            <input type="date" id="dueDate">
+            <select id="priority">
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+            </select>
+            <select id="category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="health">Health</option>
+                <option value="other">Other</option>
+            </select>
+            <button id="addBtn">Add Task</button>
+        </div>
+
+        <table id="todoTable" align="center">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Go on a bike ride</td>
+                    <td>2024-06-20</td>
+                    <td>High</td>
+                    <td>Health</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Complete the assignment</td>
+                    <td>2024-06-18</td>
+                    <td>Medium</td>
+                    <td>Work</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Read a Book</td>
+                    <td>2024-06-19</td>
+                    <td>Low</td>
+                    <td>Personal</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Drink 3 litres of water</td>
+                    <td>2024-06-18</td>
+                    <td>High</td>
+                    <td>Health</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Enroll new course</td>
+                    <td>2024-06-22</td>
+                    <td>Medium</td>
+                    <td>Work</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Do house chores</td>
+                    <td>2024-06-20</td>
+                    <td>Low</td>
+                    <td>Personal</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+                <tr>
+                    <td>Do workout</td>
+                    <td>2024-06-19</td>
+                    <td>High</td>
+                    <td>Health</td>
+                    <td><button onclick="toggleComplete(this)">Incomplete</button></td>
+                    <td><a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('addBtn').addEventListener('click', function() {
+            var taskName = document.getElementById('taskName').value;
+            var dueDate = document.getElementById('dueDate').value;
+            var priority = document.getElementById('priority').value;
+            var category = document.getElementById('category').value;
+
+            if (taskName.trim() !== "" && dueDate.trim() !== "") {
+                var table = document.getElementById('todoTable').getElementsByTagName('tbody')[0];
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+
+                cell1.innerHTML = taskName;
+                cell2.innerHTML = dueDate;
+                cell3.innerHTML = priority.charAt(0).toUpperCase() + priority.slice(1);
+                cell4.innerHTML = category.charAt(0).toUpperCase() + category.slice(1);
+                cell5.innerHTML = '<button onclick="toggleComplete(this)">Incomplete</button>';
+                cell6.innerHTML = '<a href="#" onclick="editTask(this)">Edit</a> | <a href="#" onclick="deleteTask(this)">Delete</a>';
+
+                // Clear the input fields after adding the task
+                document.getElementById('taskName').value = "";
+                document.getElementById('dueDate').value = "";
+                document.getElementById('priority').value = "low";
+                document.getElementById('category').value = "work";
+            }
+        });
+
+        function toggleComplete(button) {
+            if (button.innerText === "Incomplete") {
+                button.innerText = "Complete";
+                button.parentElement.parentElement.style.textDecoration = "line-through";
+            } else {
+                button.innerText = "Incomplete";
+                button.parentElement.parentElement.style.textDecoration = "none";
+            }
+        }
+
+        function editTask(link) {
+            var row = link.parentElement.parentElement;
+            var taskName = row.cells[0].innerText;
+            var dueDate = row.cells[1].innerText;
+            var priority = row.cells[2].innerText.toLowerCase();
+            var category = row.cells[3].innerText.toLowerCase();
+
+            document.getElementById('taskName').value = taskName;
+            document.getElementById('dueDate').value = dueDate;
+            document.getElementById('priority').value = priority;
+            document.getElementById('category').value = category;
+
+            deleteTask(link);
+        }
+
+        function deleteTask(link) {
+            var row = link.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+        }
+    </script>
+</body>
+</html>
